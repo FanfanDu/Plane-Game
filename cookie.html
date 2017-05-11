@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>封装cookie</title>
+</head>
+<body>
+	<script>
+		//name=value;expires=date;path=/
+		//name,value是必须设置的值，一定不空,undefined,null(空对象)
+		//7
+		//设置cookie的函数
+		function setCookie(name,value,expires,path){
+			// console.log(111)
+			var str ="";
+			if(name!=undefined&&value!=undefined){
+				str+=name+"="+value+";";
+				// console.log(str)
+				
+				if(expires){
+					var date =new Date();
+					date.setDate(date.getDate()+expires);
+					str+="expires="+date+";";
+					// console.log(str)
+				}
+				if(path){
+					str+=";path="+path;
+				}
+				// console.log(str)
+				document.cookie = str;
+				// console.log(document.cookie);//设置和获取cookie都是用document.cookie
+			}else{
+				console.log("设置cookie一定要name 和value")
+			}
+		}
+		// console.log(document.cookie)
+		//df=xx; df=xx; adsa=sdsa
+		function getCookie(name){
+			var arrCookie = document.cookie.split("; ");
+			// console.log(arrCookie);
+			for(var i=0;i<arrCookie.length;i++){
+				// console.log(arrCookie[i]);
+				var newArr = arrCookie[i].split("=");
+				// console.log(newArr[0])
+				if(newArr[0] == name){
+					return newArr[1]
+					//return 后面所有的语句都不会执行
+				}
+			}			
+			// console.log(newArr);
+		}
+		//
+		// console.log(getCookie("adsa"));
+		// setCookie("df","xx",7,"/");
+		// setCookie("adsa","sdsa",8,"/")
+		// setCookie("df",'[{"name":"df","age":18}]',7,"/");
+		setCookie("shopping",'[{"goodsId":1,"price":188},{"goodsId":2,"price":108}]',7,"/");
+		
+		console.log(getCookie("shopping"))
+		//JSON.parse()//将字符串转化为对象
+		//JSON.stringify()
+		var strCookie = getCookie("shopping");
+		var oCookie = JSON.parse(strCookie);
+		//[{"goodsId":1,"price":188},{"goodsId":2,"price":108}]
+		//所有的对象都可以有属性和方法
+		// var obj ={
+		// 	name:"杜凡",
+		// 	age:18,
+		// 	say:function(){
+		// 		console.log("你好")
+		// 	}
+		// }
+		// obj.say();
+		// console.log(obj.name)
+		// console.log(obj["name"])
+
+		//才js中不变量就是字符串
+		console.log(typeof oCookie)
+		for(var i=0;i<oCookie.length;i++){
+			console.log(oCookie[i])
+			var obj = oCookie[i];
+			var goodsId = oCookie[i].goodsId;
+			var goodsPrice = oCookie[i].price;
+			console.log(goodsId);
+			console.log(goodsPrice)
+		}
+	</script>
+</body>
+</html>
